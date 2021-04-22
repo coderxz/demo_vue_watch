@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.1/vue.common.dev.js"></script>
+</head>
+<body>
+  <div id="app">
+  姓: <input type="text" v-model="firstName">
+  名: <input type="text" v-model="lastName">
+  <p>{{fullName}}</p>
+  深度监视:<button @click="keepWatch">点我</button>
+  </div>
+  <script>
+  const vm = new Vue({
+    el:'#app',
+    data:{
+      firstName:"李",
+      lastName:"银河",
+      fullName:'',
+      obj:{
+        name:'kobe',
+        age:43
+      }
+    },
+    watch:{
+      firstName:{
+        handler(newValue,oldValue){
+          this.fullName = newValue+ '-' + this.lastName
+        },
+        immediate: true
+      },
+      lastName:{
+        handler(newValue,oldValue){
+          this.fullName = this.firstName + '-' + newValue
+        },
+        immediate:true
+      },
+      obj:{
+        handler(newValue,b,c){
+          console.log(newValue,b,c);
+          console.log(newValue===b);
+        },
+        deep:true
+      }
+    },
+    methods:{
+      keepWatch(){
+        this.obj.name= 'wade'
+      }
+    }
+  })
+  </script>
+</body>
+</html>
